@@ -3,7 +3,8 @@ import * as express from "express";
 import Router from "./routers";
 import Socket from "./Module/socket";
 const app = express();
-const PORT = process.env.PORT || 4000;
+// const PORT = process.env.PORT || 4000;
+const PORT = 4000;
 const http = require("http");
 const server = http.createServer(app);
 app.use(cors());
@@ -13,9 +14,13 @@ app.get("/", (res, req) => {
   req.send("Hello word");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running at ${PORT}`);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+  },
+});
+server.listen(PORT, () => {
+  console.log(`일해라 서버 ! ${PORT}`);
 });
 
-const io = require("socket.io")(server);
 Socket(io);
